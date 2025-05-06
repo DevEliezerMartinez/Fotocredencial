@@ -1,0 +1,157 @@
+.card_info {
+    border: 1px solid #e0e0e0;
+    padding: 1rem;
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+    width: 100%;
+    box-shadow: 0   4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+    background-color: white;
+}
+
+
+.card_info p{
+    font-weight: 400;
+    font-optical-sizing: auto;
+    font-size: 1rem;
+}
+
+.card_info ul {
+    font-weight: 600;
+    text-align: left;
+    font-size: .7rem;
+
+}
+
+
+.principal_content{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+    align-items: center;
+    width: 80%;
+}
+
+/* core */
+
+.switch_camera {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    gap: 8px;
+    padding: 1rem 1.5rem;
+  }
+  
+  .switch_camera input {
+    display: none;
+  }
+  
+  .slider {
+    position: relative;
+    width: 40px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 20px;
+    transition: background-color 0.3s;
+  }
+  
+  .slider::before {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s;
+  }
+  
+  .switch_camera input:checked + .slider {
+    background-color: #4caf50;
+  }
+  
+  .switch_camera input:checked + .slider::before {
+    transform: translateX(20px);
+  }
+  
+  .actions{
+    font-family: "Montserrat", sans-serif;
+    font-weight: 300;
+    font-size: .7rem;
+  }
+  .mirror{
+    border-radius: 4px;
+  }
+  .capture_btn {
+    position: absolute;
+    top: 98%;
+    left: 44%;
+    width: 35px;
+    height: 35px;
+    background-color: #ffffff;
+    border-radius: 10000px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+  }
+  
+  .capture_btn::after {
+    content: "";
+    width: 24px; /* un poco más pequeño */
+    height: 24px;
+    border: 2px solid #000000; /* borde negro */
+    border-radius: 50%;
+    background-color: transparent; /* fondo transparente */
+    position: absolute;
+  }
+  
+
+  .captured-image{
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+  }
+  .success{
+    background-color: #6CF994;
+  }
+
+  .error{
+    background-color: #F96C6C;
+  }
+
+  .process{
+    background-color: #6CBAF9;
+  }
+
+  .validation-status{
+    margin-top: .6rem;
+    padding: .5rem;
+    border-radius: 11px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+    font-size: .7rem;
+
+  }
+
+  .retry_btn{
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    display: flex;
+    justify-content: left;
+    gap: .4rem;
+
+  }
+
+  .retry_btn img{
+    width: 5%;
+    
+  }

@@ -1,0 +1,23 @@
+.header_app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+.header_app img {
+  width: 26%;
+  height: 70px;
+}
+
+.header_app h1 {
+  font-family: "GothamBlack", sans-serif;
+  font-size: 1rem;
+}
+
+@font-face {
+  font-family: "GothamBlack";
+  src: url("../fonts/Gotham/GOTHAM-BOLD.TTF") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}

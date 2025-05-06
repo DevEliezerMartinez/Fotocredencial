@@ -1,0 +1,108 @@
+/* Estilos base: Mobile First */
+.registration-form {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+  
+  .registration-form h2 {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  input[type="text"],
+  input[type="email"] {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  input[type="text"]:focus,
+  input[type="email"]:focus {
+    border-color: #007bff;
+  }
+  
+  .error {
+    border-color: #e63946;
+  }
+  
+  .error-message {
+    color: #e63946;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+  
+  .submit-btn {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .submit-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .submit-btn:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+  
+  /* Responsive: Tablets */
+  @media (min-width: 600px) {
+    .registration-form {
+      padding: 2rem;
+    }
+  
+    .registration-form h2 {
+      font-size: 2rem;
+    }
+  }
+  
+  /* Responsive: Laptops y Desktop */
+  @media (min-width: 992px) {
+    .registration-form {
+      max-width: 600px;
+    }
+  
+    .form-group {
+      flex-direction: row;
+      align-items: center;
+    }
+  
+    label {
+      width: 30%;
+      margin-bottom: 0;
+      font-size: 1rem;
+    }
+  
+    input[type="text"],
+    input[type="email"] {
+      width: 70%;
+    }
+  }
+  

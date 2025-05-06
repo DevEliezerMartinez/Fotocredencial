@@ -1,0 +1,58 @@
+#img_bienvenida{
+  width: 30%;
+}
+
+.content {
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.greetings {
+  text-align: center;
+}
+
+.greetings h3 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+  font-size: 2rem;
+}
+
+.greetings h4 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-optical-sizing: auto;
+  font-size: 1.4rem;
+}
+
+.greetings p {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
+  padding: 0rem 1rem;
+}
+.actions {
+  display: flex;
+  flex-direction: column;
+  font-family: "Montserrat", sans-serif;
+
+}
+.start {
+  padding: 1rem 3rem;
+  font-weight: 800;
+  background-color: #5efc70;
+  color: #252525;;
+  border-radius: 11px;
+  outline: none;
+  border: none;
+}
+
+.goback {
+  color: #1820FF;
+  outline: none;
+  border: none;
+  font-weight: 300;
+  background-color: transparent;
+  margin-top: 1rem;
+}
