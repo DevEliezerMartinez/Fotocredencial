@@ -42,7 +42,7 @@ npm install
 ```bash
 npm run dev
 ```
-
+Nota: el contenido para el servidor debe estar dentro de dist/credenciales/ debido a que asi se configuro el servidor
 4. **Open the app**
 Visit `http://localhost:5173` in your browser.
 

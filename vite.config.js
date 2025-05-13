@@ -13,6 +13,8 @@ export default defineConfig({
   },
   // Asegurarse de que Vite sirva correctamente los archivos de la carpeta public
   publicDir: 'public',
+  base: '/credenciales/',  // Ruta base coincidente con Nginx
+
   // Configuración de resolución de rutas
   resolve: {
     alias: {
@@ -20,3 +22,4 @@ export default defineConfig({
     },
   },
 })
+
