@@ -29,14 +29,24 @@ const WebcamCapture = ({ onPhotoValidated }) => {
 
   useEffect(() => {
     const loadModels = async () => {
-     const MODEL_URL = "./models";
+      const MODEL_URL = `${import.meta.env.BASE_URL}models`;
+
+      // Opción 2: Ruta absoluta dinámica (alternativa)
+      // const MODEL_URL = `${window.location.origin}${import.meta.env.BASE_URL}models`;
+
+      console.log("Intentando cargar desde:", MODEL_URL);
       try {
         await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
         await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
         await faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL);
         setModelsLoaded(true);
       } catch (error) {
-        console.error("Error al cargar modelos:", error);
+
+        console.error("Error detallado:", {
+          error,
+          message: "Verifica: 1. Ruta de modelos 2. Integridad de archivos",
+          expectedPath: `${window.location.origin}${import.meta.env.BASE_URL}models`
+        });
         setValidationMessage("Error al cargar modelos de detección facial.");
       }
     };
@@ -168,9 +178,8 @@ const WebcamCapture = ({ onPhotoValidated }) => {
 
       return {
         valid: false,
-        message: `El rostro no está centrado. Muévase hacia la ${horizontalDirection}${
-          offsetY > 0.15 ? ` y hacia ${verticalDirection}` : ""
-        }.`,
+        message: `El rostro no está centrado. Muévase hacia la ${horizontalDirection}${offsetY > 0.15 ? ` y hacia ${verticalDirection}` : ""
+          }.`,
         overlay,
       };
     }
@@ -311,8 +320,8 @@ const WebcamCapture = ({ onPhotoValidated }) => {
               ) : (
                 !showCamera && (
                   <button onClick={resetCamera} className="retry_btn">
-                  <img src={reload}/>
-                  Intentar de nuevo
+                    <img src={reload} />
+                    Intentar de nuevo
                   </button>
                 )
               )}

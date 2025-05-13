@@ -18,6 +18,8 @@ export default defineConfig({
   // 👇 Nueva configuración para el build
   build: {
     outDir: "dist/credenciales", // Genera todo dentro de /dist/credenciales/
+    assetsInlineLimit: 0,  // Desactiva la conversión a base64
+    copyPublicDir: true,  // 👈 Copia `public/models` tal cual
     emptyOutDir: true, // Limpia el directorio antes de cada build
   },
 
