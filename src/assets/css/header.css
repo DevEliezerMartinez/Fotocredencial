@@ -1,23 +1,67 @@
-.header_app {
+.navbar-container {
+  background-color: white;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.navbar-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
 }
 
-.header_app img {
-  width: 26%;
-  height: 70px;
+.navbar-logo img {
+  height: 60px;
 }
 
-.header_app h1 {
-  font-family: "GothamBlack", sans-serif;
-  font-size: 1rem;
+.mobile-menu-button {
+  display: none;
 }
 
-@font-face {
-  font-family: "GothamBlack";
-  src: url("../fonts/Gotham/GOTHAM-BOLD.TTF") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+.desktop-menu {
+  border-bottom: none;
+  line-height: 40px;
+  font-weight: bold;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.desktop-menu .ant-menu-item:hover {
+  color: #ff4d4f !important;
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-button {
+    display: block;
+  }
+
+  .desktop-menu {
+    display: none;
+  }
+}
+
+.mobile-drawer .ant-drawer-header {
+  border-bottom: none;
+}
+
+.mobile-drawer .ant-drawer-title {
+  font-weight: bold;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.mobile-menu {
+  border-right: none;
+}
+
+.mobile-menu .ant-menu-item {
+  height: 48px;
+  line-height: 48px;
+  margin: 4px 0;
+  font-weight: bold;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.mobile-menu .ant-menu-item:hover {
+  background-color: #f5f5f5;
 }
