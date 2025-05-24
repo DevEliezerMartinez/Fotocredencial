@@ -1,23 +1,30 @@
-import React from "react";
-import Header_app from "../../components/admin/Header";
-import success from "@/assets/img/success.svg";
-import "@/assets/css/success.css";
+import React from 'react';
+import { Result, Button } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import Header_app from "../../components/student/Header";
 
-function Sucess() {
+function Success() {
+  const navigate = useNavigate();
+
   return (
-    <div className="success_section">
-      <Header_app />
-      <img className="success_image" src={success} />
-
-      <h3>Registro #153</h3>
-      <p>
-        Un coordinador revisara tu fotografia y te notificaremos cuando este
-        listo
-      </p>
-
-      <button>Terminar</button>
+    <div>
+      <Header_app/>
+      <Result
+        status="success"
+        title="Registrado exitosamente"
+        subTitle="Muchas gracias, en cuanto tengamos más noticias te informaremos"
+        extra={[
+          <Button 
+            type="primary" 
+            key="finish" 
+            onClick={() => navigate('/')}
+          >
+            Terminar
+          </Button>,
+        ]}
+      />
     </div>
   );
 }
 
-export default Sucess;
+export default Success;

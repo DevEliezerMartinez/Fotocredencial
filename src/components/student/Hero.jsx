@@ -3,6 +3,7 @@ import { Row, Col, Typography } from "antd";
 import heroImage from "@/assets/img/hero-image.svg";
 import "../../assets/css/hero.css";
 import StudentValidation from "./StudentValidation";
+import { Link } from "react-router-dom";
 
 const { Title, Paragraph } = Typography;
 
@@ -27,17 +28,16 @@ const Hero = () => {
             Credencial - Campus Digital
           </Title>
 
-          <h3 className="hero-subtitle ">
-            Bienvenido
-          </h3>
-          
+          <h3 className="hero-subtitle ">Bienvenido</h3>
+
           <Paragraph className="hero-paragraph">
-            En este espacio podrás capturar tu mejor sonrisa para tu credencial 
-            digital institucional. Esta imagen te representará oficialmente, 
-            ¡muestra tu mejor versión! Primero vamos a validar tus datos como te gustaria empezar?
+            En este espacio podrás capturar tu mejor sonrisa para tu credencial
+            digital institucional. Esta imagen te representará oficialmente,
+            Para empezar con tu credencial digital institucional, por favor
+            ingresa tu matrícula o correo electrónico.
           </Paragraph>
-          
-         <StudentValidation/>
+
+          <StudentValidation />
         </Col>
       </Row>
     </div>

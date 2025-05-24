@@ -10,10 +10,8 @@
   padding: 15px;
 }
 
-
-
 .hero-image {
-  width: 100%;
+  width: 50%;
   height: auto;
   display: block;
 }
@@ -26,12 +24,12 @@
 }
 
 .hero-title {
- font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 400;
 }
 
 .hero-subtitle {
- font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 600;
   font-size: 1.5rem;
   text-align: center;
@@ -54,32 +52,42 @@
   margin: 0 auto;
 }
 
+.image-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 /* Estilos para desktop (md en adelante) */
+
 @media (min-width: 768px) {
+  .hero-image {
+    width: 100%;
+  }
   .hero-container {
     padding: 60px 40px;
   }
-  
+
   .hero-image-column {
     order: 1;
     padding-right: 30px;
   }
-  
+
   .hero-content-column {
     order: 2;
     padding-left: 30px;
   }
-  
+
   .hero-title {
     text-align: left;
     font-size: 2.5rem;
   }
-  
+
   .hero-paragraph {
     text-align: left;
     font-size: 18px;
   }
-  
+
   .hero-button {
     margin: 0;
   }
