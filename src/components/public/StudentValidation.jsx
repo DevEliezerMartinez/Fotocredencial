@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   validateByEmail,
   validateByStudentId,
-} from "../../api/student/studentValidation";
+} from "@/api/studentValidation";
 
 const StudentValidation = () => {
   const [activeTab, setActiveTab] = useState("1");

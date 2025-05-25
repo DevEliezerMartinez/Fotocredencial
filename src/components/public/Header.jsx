@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Menu, Button, Drawer } from 'antd';
-import { MenuOutlined } from '@ant-design/icons';
-import logo from '@/assets/img/logo_transparente.png';
-import '../../assets/css/header.css'; // Archivo CSS que crearemos
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Menu, Button, Drawer } from "antd";
+import { MenuOutlined } from "@ant-design/icons";
+import logo from "@/assets/img/logo_transparente.png";
+import "@/assets/css/header.css"; // Archivo CSS que crearemos
 
 const HeaderStudents = () => {
   const navigate = useNavigate();
@@ -11,52 +11,55 @@ const HeaderStudents = () => {
 
   const menuItems = [
     {
-      key: 'inicio',
-      label: 'Inicio',
-      onClick: () => navigate('/')
+      key: "inicio",
+      label: "Inicio",
+      onClick: () => navigate("/"),
     },
     {
-      key: 'campus',
-      label: 'Campus digital',
+      key: "campus",
+      label: "Campus digital",
       onClick: () => {
-        const campusSection = document.getElementById('campus');
+        const campusSection = document.getElementById("campus");
         if (campusSection) {
-          campusSection.scrollIntoView({ behavior: 'smooth' });
+          campusSection.scrollIntoView({ behavior: "smooth" });
         } else {
-          navigate('/#campus');
+          navigate("/#campus");
         }
-      }
+      },
     },
     {
-      key: 'registro',
-      label: 'Registro credencial',
+      key: "registro",
+      label: "Registro credencial",
       onClick: () => {
-        window.open('http://credenciales.universidad-une.com/credenciales', '_blank');
-      }
+        window.open(
+          "http://credenciales.universidad-une.com/credenciales",
+          "_blank"
+        );
+      },
     },
     {
-      key: 'beneficios',
-      label: 'Beneficios Santander',
+      key: "beneficios",
+      label: "Beneficios Santander",
       onClick: () => {
-        const beneficiosSection = document.getElementById('Beneficios');
+        const beneficiosSection = document.getElementById("Beneficios");
         if (beneficiosSection) {
-          beneficiosSection.scrollIntoView({ behavior: 'smooth' });
+          beneficiosSection.scrollIntoView({ behavior: "smooth" });
         } else {
-          navigate('/#Beneficios');
+          navigate("/#Beneficios");
         }
-      }
+      },
     },
     {
-      key: 'acceso',
-      label: 'Acceso',
+      key: "acceso",
+      label: "Acceso",
       onClick: () => {
-        window.location.href = 'http://credenciales.universidad-une.com/login';
-      }
-    }
+        navigate("/login");
+      },
+    },
   ];
 
   const handleLogoClick = () => {
-    navigate('/');
+    navigate("/");
     setMobileMenuOpen(false);
   };
 
@@ -77,11 +80,7 @@ const HeaderStudents = () => {
         />
 
         {/* Desktop menu */}
-        <Menu
-          mode="horizontal"
-          items={menuItems}
-          className="desktop-menu"
-        />
+        <Menu mode="horizontal" items={menuItems} className="desktop-menu" />
       </div>
 
       {/* Mobile Drawer */}
@@ -98,7 +97,7 @@ const HeaderStudents = () => {
           items={menuItems}
           className="mobile-menu"
           onClick={(item) => {
-            menuItems.find(i => i.key === item.key).onClick();
+            menuItems.find((i) => i.key === item.key).onClick();
             setMobileMenuOpen(false);
           }}
         />

@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col, Typography } from "antd";
 import heroImage from "@/assets/img/hero-image.svg";
-import "../../assets/css/hero.css";
+import "@/assets/css/hero.css";
 import StudentValidation from "./StudentValidation";
 import { Link } from "react-router-dom";
 

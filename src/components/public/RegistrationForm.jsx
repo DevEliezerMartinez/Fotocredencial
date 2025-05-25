@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Input, notification } from "antd";
 import "@/assets/css/registration.css";
-import { sendInfo } from "../../api/student/studentValidation";
+import { sendInfo } from "@/api/studentValidation";
 const { TextArea } = Input;
 import { useNavigate } from "react-router-dom";
 

@@ -1,0 +1,16 @@
+// src/pages/public/NotFound.jsx
+import React from "react";
+import { Link } from "react-router-dom";
+
+// Cambiado a export nombrado
+export default function NotFound() {
+  return (
+    <div style={{ textAlign: "center", padding: "2rem" }}>
+      <h1>404</h1>
+      <p>La página que buscas no existe.</p>
+      <Link to="/">Volver al inicio</Link>
+    </div>
+  );
+}
+
+// Eliminado: export default NotFound

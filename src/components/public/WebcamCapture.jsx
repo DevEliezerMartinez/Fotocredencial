@@ -13,7 +13,7 @@ import {
   checkNeutralExpression,
   flipImageHorizontally,
   createImageFromSrc,
-} from "../../utils/imageValidation";
+} from "@/utils/imageValidation";
 
 const WebcamCapture = ({ onPhotoValidated }) => {
   const webcamRef = useRef(null);
@@ -29,7 +29,7 @@ const WebcamCapture = ({ onPhotoValidated }) => {
 
   useEffect(() => {
     const loadModels = async () => {
-      const MODEL_URL = `${import.meta.env.BASE_URL}models`;
+      const MODEL_URL = `${import.meta.env.BASE_URL}/models`;
 
       try {
         await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);

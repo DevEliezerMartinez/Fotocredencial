@@ -1,15 +1,15 @@
 // src/utils/studentValidation.js
-import apiClient from "../../lib/axios";
+import apiClient from "@/lib/axios";
 
 export const validateByEmail = async (email) => {
-  const response = await apiClient.post("api/v1/students/validate/email", {
+  const response = await apiClient.post("students/validate/email", {
     email,
   });
   return response.data;
 };
 
 export const validateByStudentId = async (matricula) => {
-  const response = await apiClient.post("api/v1/students/validate/matricula", {
+  const response = await apiClient.post("students/validate/matricula", {
     matricula: matricula.toString(),
   });
   return response.data;
@@ -33,7 +33,7 @@ export const sendInfo = async (
     }
 
     const response = await apiClient.post(
-      "api/v1/students/registros",
+      "students/registros",
       formData,
       {
         headers: {

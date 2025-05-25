@@ -1,4 +1,4 @@
-import Header_app from "../../components/student/Header";
+import Header_app from "@/components/public/Header";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Modal, Button, Typography, Alert, Row, Col, Card } from "antd";
@@ -8,12 +8,12 @@ import {
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import "@/assets/css/core.css";
-import WebcamCapture from "../../components/student/WebcamCapture";
-import RegistrationForm from "../../components/student/RegistrationForm";
+import WebcamCapture from "@/components/public/WebcamCapture";
+import RegistrationForm from "@/components/public/RegistrationForm";
 
 const { Title, Paragraph, Text } = Typography;
 
-function App() {
+function Core() {
   const location = useLocation();
   const studentData = location.state?.studentData;
 
@@ -231,4 +231,4 @@ function App() {
   );
 }
 
-export default App;
+export default Core;
