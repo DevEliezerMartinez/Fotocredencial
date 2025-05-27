@@ -12,11 +12,10 @@ export default defineConfig(({ command, mode }) => {
     
     server: {
       port: 3000,
-      open: true, // Abre automáticamente el navegador
+      open: true,
       hmr: {
-        overlay: true,
+        overlay: false, // CAMBIO: Deshabilitar overlay que puede afectar scroll
       },
-      // Proxy para desarrollo (opcional, si necesitas hacer requests a tu API)
       proxy: {
         '/api': {
           target: env.VITE_API_BASE_URL || 'http://localhost:8000',
@@ -26,19 +25,16 @@ export default defineConfig(({ command, mode }) => {
       }
     },
 
-    // Usar la variable de entorno para la base path
     base: env.VITE_BASE_PATH || "/credenciales",
 
     build: {
       outDir: "dist/credenciales",
-      assetsInlineLimit: 0,  // Desactiva la conversión a base64
-      copyPublicDir: true,   // Copia archivos de public/
-      emptyOutDir: true,     // Limpia directorio antes del build
+      assetsInlineLimit: 0,
+      copyPublicDir: true,
+      emptyOutDir: true,
       
-      // Optimizaciones adicionales
       rollupOptions: {
         output: {
-          // Organizar archivos de salida
           chunkFileNames: 'assets/js/[name]-[hash].js',
           entryFileNames: 'assets/js/[name]-[hash].js',
           assetFileNames: ({ name }) => {
@@ -49,41 +45,57 @@ export default defineConfig(({ command, mode }) => {
               return 'assets/css/[name]-[hash][extname]';
             }
             return 'assets/[name]-[hash][extname]';
+          },
+          // NUEVO: Separar Ant Design en su propio chunk
+          manualChunks: {
+            antd: ['antd'],
+            vendor: ['react', 'react-dom', 'react-router-dom']
           }
         }
       },
       
-      // Configuraciones de rendimiento
       chunkSizeWarningLimit: 1000,
-      sourcemap: mode === 'development', // Solo sourcemaps en desarrollo
+      sourcemap: mode === 'development',
     },
 
-    // Asegurar que el directorio public se copie correctamente
     publicDir: "public",
 
-    // Configuración de resolución de rutas
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
       },
     },
 
-    // Configuración de definición de variables globales (opcional)
     define: {
       __APP_TITLE__: JSON.stringify(env.VITE_APP_TITLE || 'Sistema de Credenciales'),
       __DEV__: mode === 'development',
     },
 
-    // Optimización de dependencias
+    // ACTUALIZADO: Optimización específica para Ant Design
     optimizeDeps: {
-      include: ['react', 'react-dom'],
+      include: [
+        'react', 
+        'react-dom', 
+        'antd',
+        'antd/es/button',
+        'antd/es/modal',
+        'antd/es/card',
+        'antd/es/row',
+        'antd/es/col'
+      ],
     },
 
-    // Variables CSS personalizadas (opcional)
+    // ACTUALIZADO: Configuración CSS para Ant Design
     css: {
       preprocessorOptions: {
         scss: {
           additionalData: `$primary-color: ${env.VITE_PRIMARY_COLOR || '#5e35b1'};`
+        },
+        less: {
+          javascriptEnabled: true,
+          modifyVars: {
+            // Variables de tema de Ant Design si las necesitas
+          },
         }
       }
     }

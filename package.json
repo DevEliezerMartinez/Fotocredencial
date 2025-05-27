@@ -17,6 +17,7 @@
     "@tanstack/react-query-devtools": "^5.77.0",
     "antd": "^5.25.2",
     "axios": "^1.9.0",
+    "chart.js": "^4.4.9",
     "face-api.js": "^0.22.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

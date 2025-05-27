@@ -186,6 +186,9 @@ const RegistrationForm = ({
               <strong>Email:</strong> {studentData.correo || "No disponible"}
             </p>
             <p>
+              <strong>Sexo:</strong> {studentData.sexo || "No disponible"}
+            </p>
+            <p>
               <strong>Matrícula:</strong>{" "}
               {studentData.matricula || "No disponible"}
             </p>

@@ -1,38 +1,46 @@
-// src/routes/AdminRoutes.jsx
-import { Routes, Route } from 'react-router-dom';
-import { Dashboard } from '../pages/admin';
-import { RoleGuard } from '../components/admin';
-import { lazy } from 'react';
-
-// Lazy loading para rutas administrativas
-const AdminPanel = lazy(() => import('../pages/admin/admin/AdminPanel'));
-const DirectorPanel = lazy(() => import('../pages/admin/director/DirectorPanel'));
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useAuthStore } from "@/stores/auth.store";
+import AdminLayout from "@/layouts/AdminLayout";
+import Dashboard from "@/pages/admin/Dashboard";
+import Incidencias from "@/pages/admin/Incidencias";
+import Planteles from "@/pages/admin/Planteles";
+import DetallesPlantel from "@/pages/director/DetallesPlantel";
 
 export default function AdminRoutes() {
+  const { isAuthenticated, role, plantel_nombre } = useAuthStore();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
+
   return (
     <Routes>
-      <Route path="/dashboard" element={<Dashboard />}>
-        {/* Rutas compartidas */}
-        <Route index element={<div>Bienvenido al Dashboard</div>} />
-
-        {/* Rutas solo para admin */}
-        <Route
-          path="admin/*"
+      {/* AdminLayout como ruta padre que contiene todas las rutas admin */}
+      <Route path="/" element={<AdminLayout />}>
+        {/* Rutas de admin */}
+        {role === 1 && (
+          <>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="incidencias" element={<Incidencias />} />
+            <Route path="planteles" element={<Planteles />} />
+            <Route path="planteles/:slug" element={<DetallesPlantel />} />
+          </>
+        )}
+        
+        {/* Ruta para director - acceso directo a su plantel */}
+        {role === 2 && plantel_nombre && (
+          <Route path="planteles/:slug" element={<DetallesPlantel />} />
+        )}
+        
+        {/* Redirección por defecto - ruta exacta */}
+        <Route 
+          index
           element={
-            <RoleGuard allowedRoles={[1]}>
-              <AdminPanel />
-            </RoleGuard>
-          }
-        />
-
-        {/* Rutas solo para director */}
-        <Route
-          path="director/*"
-          element={
-            <RoleGuard allowedRoles={[2]}>
-              <DirectorPanel />
-            </RoleGuard>
-          }
+            <Navigate 
+              to={role === 1 ? "/admin/dashboard" : `/admin/planteles/${plantel_nombre}`} 
+              replace 
+            />
+          } 
         />
       </Route>
     </Routes>

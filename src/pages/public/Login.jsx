@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Button, message } from "antd";
-import { UserOutlined, LockOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  LockOutlined,
+  ArrowLeftOutlined,
+} from "@ant-design/icons";
 import { useAuthStore } from "@/stores/auth.store";
 import { useNavigate } from "react-router-dom";
 import logoUne from "@/assets/img/logo_blanco.png";
@@ -12,6 +16,9 @@ function Login() {
   const [form] = Form.useForm();
   const { login } = useAuthStore();
   const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/"); // Navega a la página principal
+  };
 
   // Responsive
   useEffect(() => {
@@ -26,7 +33,7 @@ function Login() {
     try {
       await login(values); // Usamos el método login del store
       message.success("¡Bienvenido!");
-      navigate("/admin"); // Redirigir al dashboard después de login
+      navigate("/admin/"); // ← Ruta correcta
     } catch (error) {
       message.error(error.message || "Error al iniciar sesión");
     } finally {
@@ -44,7 +51,11 @@ function Login() {
 
       <div className="right_side">
         <div className="right_options">
-          <Button type="link" icon={<ArrowLeftOutlined />}>
+          <Button
+            type="link"
+            icon={<ArrowLeftOutlined />}
+            onClick={handleClick}
+          >
             Volver a la página principal
           </Button>
         </div>
@@ -69,7 +80,9 @@ function Login() {
             style={isMobile ? { color: "white" } : {}}
           >
             <Input
-              prefix={<UserOutlined style={isMobile ? { color: "white" } : {}} />}
+              prefix={
+                <UserOutlined style={isMobile ? { color: "white" } : {}} />
+              }
               placeholder="ejemplo@correo.com"
               variant={isMobile ? "borderless" : "underlined"}
               style={isMobile ? { color: "white" } : {}}
@@ -79,11 +92,15 @@ function Login() {
           <Form.Item
             name="contrasena"
             label="Contraseña"
-            rules={[{ required: true, message: "Por favor ingrese su contraseña" }]}
+            rules={[
+              { required: true, message: "Por favor ingrese su contraseña" },
+            ]}
             style={isMobile ? { color: "white" } : {}}
           >
             <Input.Password
-              prefix={<LockOutlined style={isMobile ? { color: "white" } : {}} />}
+              prefix={
+                <LockOutlined style={isMobile ? { color: "white" } : {}} />
+              }
               placeholder="Contraseña"
               variant={isMobile ? "borderless" : "underlined"}
               style={isMobile ? { color: "white" } : {}}
@@ -91,10 +108,10 @@ function Login() {
           </Form.Item>
 
           <Form.Item>
-            <Button 
-              type="primary" 
-              htmlType="submit" 
-              loading={loading} 
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading}
               block
               size="large"
             >

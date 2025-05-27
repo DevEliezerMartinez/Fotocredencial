@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Tabs, Form, Input, Button, notification } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  validateByEmail,
-  validateByStudentId,
-} from "@/api/studentValidation";
+import { validateByEmail, validateByStudentId } from "@/api/studentValidation";
 
 const StudentValidation = () => {
   const [activeTab, setActiveTab] = useState("1");
@@ -22,7 +19,7 @@ const StudentValidation = () => {
     api[type]({
       message,
       description,
-       showProgress: true,
+      showProgress: true,
       placement: "topRight",
       duration: type === "success" ? 5 : 4.5, // Duración más larga para success
     });
@@ -76,13 +73,13 @@ const StudentValidation = () => {
     if (validatedTab && responseData?.enviado === true) {
       return;
     }
-    
+
     setActiveTab(key);
     setResponseData(null);
     setValidatedTab(null);
     formEmail.resetFields();
     formStudentId.resetFields();
-    
+
     // Limpiar timer si existe
     if (redirectTimer) {
       clearTimeout(redirectTimer);
@@ -104,8 +101,8 @@ const StudentValidation = () => {
         // Mostrar mensaje de bienvenida con información sobre redirección automática
         openNotificationWithIcon(
           "success",
-          `¡Bienvenido${data.nombre ? `, ${data.nombre}` : ''}!`,
-          "Validación exitosa. Serás redirigido automáticamente o puedes presionando continuar."
+          `¡Bienvenido${data.nombre ? `, ${data.nombre}` : ""}!`,
+          "Tu acceso ha sido validado correctamente. En breve serás redirigido, o puedes continuar manualmente si lo prefieres."
         );
       }
     } catch (error) {
@@ -115,7 +112,8 @@ const StudentValidation = () => {
 
       if (status === 404) {
         title = "Estudiante no encontrado";
-        description = "No encontramos ningún estudiante con ese dato. Verifica tu información.";
+        description =
+          "No encontramos ningún estudiante con ese dato. Verifica tu información.";
       } else if (status === 500) {
         title = "Error interno del servidor";
         description = "Lo sentimos, ha ocurrido un error. Intenta más tarde.";

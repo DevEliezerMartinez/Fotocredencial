@@ -2,14 +2,14 @@
 import apiClient from "@/lib/axios";
 
 export const validateByEmail = async (email) => {
-  const response = await apiClient.post("students/validate/email", {
+  const response = await apiClient.post("public/validate/email", {
     email,
   });
   return response.data;
 };
 
 export const validateByStudentId = async (matricula) => {
-  const response = await apiClient.post("students/validate/matricula", {
+  const response = await apiClient.post("public/validate/matricula", {
     matricula: matricula.toString(),
   });
   return response.data;
@@ -33,7 +33,7 @@ export const sendInfo = async (
     }
 
     const response = await apiClient.post(
-      "students/registros",
+      "public/registros",
       formData,
       {
         headers: {
