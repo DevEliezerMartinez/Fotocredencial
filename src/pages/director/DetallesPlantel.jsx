@@ -5,9 +5,24 @@ import DetallesCarrera from "@/components/admin/director/DetallesCarrera";
 import ObjetivoPlantel from "@/components/admin/director/ObjetivoPlantel";
 import { HomeOutlined, RightOutlined, BankOutlined } from "@ant-design/icons";
 import { Breadcrumb } from "antd";
+import { useAuthStore } from "@/stores/auth.store"; // Importamos el store de autenticación
 
 export default function DetallesPlantel() {
   const { slug } = useParams();
+  const { role } = useAuthStore(); // Obtenemos el rol del usuario
+
+  // Función para determinar si mostrar enlace o no
+  const renderPlantelesBreadcrumb = () => {
+    if (role === 1) { // Admin - con enlace
+      return (
+        <Link to="/admin/planteles">
+          <BankOutlined /> Planteles
+        </Link>
+      );
+    }
+    // Director - sin enlace
+    return <><BankOutlined /> Planteles</>;
+  };
 
   return (
     <div
@@ -23,23 +38,18 @@ export default function DetallesPlantel() {
       }}
       className="dashboard-container"
     >
-     
-
       <div style={{ gridColumn: "1 / span 3" }}>
-        <Breadcrumb
-          separator={<RightOutlined />}
-        
-        >
+        <Breadcrumb separator={<RightOutlined />}>
           <Breadcrumb.Item>
             <Link to="/admin">
               <HomeOutlined /> Dashboard
             </Link>
           </Breadcrumb.Item>
+          
           <Breadcrumb.Item>
-            <Link to="/admin/planteles">
-              <BankOutlined /> Planteles
-            </Link>
+            {renderPlantelesBreadcrumb()}
           </Breadcrumb.Item>
+          
           <Breadcrumb.Item>
             <BankOutlined /> {slug}
           </Breadcrumb.Item>
@@ -47,9 +57,7 @@ export default function DetallesPlantel() {
       </div>
 
       <DetallesCarrera />
-
       <ObjetivoPlantel />
-
       <IncidenciasPlantel />
     </div>
   );

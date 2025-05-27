@@ -186,7 +186,14 @@ const RegistrationForm = ({
               <strong>Email:</strong> {studentData.correo || "No disponible"}
             </p>
             <p>
-              <strong>Sexo:</strong> {studentData.sexo || "No disponible"}
+              <strong>Sexo:</strong>{" "}
+              {studentData.sexo
+                ? studentData.sexo.toLowerCase() === "h"
+                  ? "Hombre"
+                  : studentData.sexo.toLowerCase() === "m"
+                  ? "Mujer"
+                  : studentData.sexo
+                : "No registrado"}
             </p>
             <p>
               <strong>Matrícula:</strong>{" "}

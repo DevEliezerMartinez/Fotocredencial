@@ -1,46 +1,44 @@
-import { Card, List, Progress } from "antd";
+import { Card, List, Progress, Typography } from "antd";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+
+const { Text } = Typography;
 
 function DetallesCarrera() {
-  // Datos simulados de carreras
+  const { slug } = useParams(); // Obtenemos el slug del plantel de la URL actual
+
+  // Datos simulados de carreras (ahora sin URLs hardcodeadas)
   const carreras = [
     {
-      id: 1,
+      id: "ingenieria-software",
       nombre: "Ingeniería de Software",
-      progreso: 75,
-      url: "/admin/carreras/ingenieria-software"
+      progreso: 75
     },
     {
-      id: 2,
+      id: "medicina",
       nombre: "Medicina",
-      progreso: 40,
-      url: "/admin/carreras/medicina"
+      progreso: 40
     },
     {
-      id: 3,
+      id: "derecho",
       nombre: "Derecho",
-      progreso: 60,
-      url: "/admin/carreras/derecho"
+      progreso: 60
     },
     {
-      id: 4,
+      id: "arquitectura",
       nombre: "Arquitectura",
-      progreso: 30,
-      url: "/admin/carreras/arquitectura"
+      progreso: 30
     },
     {
-      id: 5,
+      id: "administracion-empresas",
       nombre: "Administración de Empresas",
-      progreso: 90,
-      url: "/admin/carreras/administracion-empresas"
+      progreso: 90
     },
     // Más elementos para demostrar el scroll
     ...Array.from({ length: 10 }, (_, i) => ({
-      id: i + 6,
+      id: `carrera-${i + 6}`,
       nombre: `Carrera Adicional ${i + 1}`,
-      progreso: Math.floor(Math.random() * 100),
-      url: `/carreras/adicional-${i + 1}`
+      progreso: Math.floor(Math.random() * 100)
     }))
   ];
 
@@ -52,27 +50,44 @@ function DetallesCarrera() {
       }}
     >
       <Card>
-        <div className="card-header">Detalles de Carreras</div>
+        <div className="card-header">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>Detalles de Carreras</span>
+            <Text type="secondary">
+              Plantel actual: <Text strong>{slug}</Text>
+            </Text>
+          </div>
+        </div>
+        
         <List
           dataSource={carreras}
           style={{
             maxHeight: 400,
             overflowY: "auto",
             overflowX: "hidden",
-            scrollbarWidth: "none", // Para Firefox
-            msOverflowStyle: "none" // Para IE
+            scrollbarWidth: "none",
+            msOverflowStyle: "none"
           }}
-          className="hide-scrollbar" // Añade esto en tu CSS global
+          className="hide-scrollbar"
           renderItem={(carrera) => (
             <List.Item style={{ padding: "8px 0" }}>
-              <Link to={carrera.url} style={{ width: '100%', display: 'block' }}>
+              <Link 
+                to={`/admin/planteles/${slug}/${carrera.id}`} 
+                style={{ width: '100%', display: 'block' }}
+              >
                 <div style={{ 
                   fontSize: 16,
                   fontWeight: 500,
                   marginBottom: 4,
-                  color: "#1890ff" // Color azul similar a los links
+                  color: "#1890ff"
                 }}>
                   {carrera.nombre}
+                </div>
+                <div style={{ marginBottom: 4 }}>
+                  <Text type="secondary">
+                    Ruta: /admin/planteles/<Text strong>{slug}</Text>/
+                    <Text strong>{carrera.id}</Text>
+                  </Text>
                 </div>
                 <Progress 
                   percent={carrera.progreso} 
@@ -92,7 +107,5 @@ function DetallesCarrera() {
     </div>
   );
 }
-
-
 
 export default DetallesCarrera;

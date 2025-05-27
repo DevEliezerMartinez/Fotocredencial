@@ -197,7 +197,7 @@ export default function AdminLayout() {
             fontWeight: 600,
             color: "rgba(0, 0, 0, 0.85)"
           }}>
-            {role === 1 ? "Panel de Administración" : "Panel de Director"}
+            {role === 1 ? "Credenciales Campus Digital - Panel de Administración" : "Credenciales Campus Digital - Panel de Director"}
           </h1>
           <Button 
             type="text" 

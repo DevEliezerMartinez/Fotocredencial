@@ -373,7 +373,7 @@ const WebcamCapture = ({ onPhotoValidated }) => {
                 disabled={isProcessing || !modelsLoaded}
                 className="capture_btn"
               >
-                {isProcessing ? "..." : ""}
+                {isProcessing ? "..." : "Capturar"}
               </button>
             ) : (
               !showCamera && (
