@@ -13,28 +13,22 @@ const HeaderStudents = () => {
     {
       key: "inicio",
       label: "Inicio",
-      onClick: () => navigate("/"),
+      onClick: () =>
+        (window.location.href = "http://credenciales.universidad-une.com/"),
     },
     {
       key: "campus",
       label: "Campus digital",
       onClick: () => {
-        const campusSection = document.getElementById("campus");
-        if (campusSection) {
-          campusSection.scrollIntoView({ behavior: "smooth" });
-        } else {
-          navigate("/#campus");
-        }
+        window.location.href =
+          "http://credenciales.universidad-une.com/#campus";
       },
     },
     {
       key: "registro",
       label: "Registro credencial",
       onClick: () => {
-        window.open(
-          "http://credenciales.universidad-une.com/credenciales",
-          "_blank"
-        );
+        window.open("http://credenciales.universidad-une.com/credenciales/");
       },
     },
     {
@@ -45,7 +39,8 @@ const HeaderStudents = () => {
         if (beneficiosSection) {
           beneficiosSection.scrollIntoView({ behavior: "smooth" });
         } else {
-          navigate("/#Beneficios");
+          window.location.href =
+            "http://credenciales.universidad-une.com/#Beneficios";
         }
       },
     },
