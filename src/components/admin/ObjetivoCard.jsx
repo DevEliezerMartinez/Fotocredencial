@@ -1,41 +1,48 @@
-// components/ObjetivoCard.jsx
 import { Card, Progress, Divider } from "antd";
 import { useState, useEffect } from "react";
+import apiClient from "@/lib/axios";
 
 export default function ObjetivoCard() {
-  const [data, setData] = useState({ 
-    totalAlumnos: 0, 
-    registrados: 0, 
-    faltantes: 0, 
-    porcentaje: 0, 
+  const [data, setData] = useState({
+    totalAlumnos: 0,
+    registrados: 0,
+    faltantes: 0,
+    porcentaje: 0,
     loading: true,
-    error: false
+    error: false,
   });
 
   useEffect(() => {
-    // Simular llamada a API con setTimeout
-    const fetchDataSimulada = () => {
-      setTimeout(() => {
-        // Datos simulados que el API retornaría
-        const result = {
-          totalAlumnos: 45000,
-          registrados: 22500,
-        };
+    const fetchData = async () => {
+      try {
+        const response = await apiClient.get("admin/objetivos");
+        const { total_alumnos_visibles, total_registros, faltantes } = response.data;
 
-        const porcentaje = Math.round((result.registrados / result.totalAlumnos) * 100);
+        const totalAlumnos = total_alumnos_visibles || 0;
+        const registrados = total_registros || 0;
+        const faltantesCalculados = faltantes || 0;
+
+        const porcentaje = totalAlumnos > 0 ? Math.round((registrados / totalAlumnos) * 100) : 0;
 
         setData({
-          totalAlumnos: result.totalAlumnos,
-          registrados: result.registrados,
-          faltantes: result.totalAlumnos - result.registrados,
-          porcentaje,
+          totalAlumnos: totalAlumnos,
+          registrados: registrados,
+          faltantes: faltantesCalculados,
+          porcentaje: porcentaje,
           loading: false,
-          error: false
+          error: false,
         });
-      }, 1500); // Simula retraso de 1.5 segundos
+      } catch (error) {
+        console.error("Error fetching objetivo data:", error);
+        setData((prevData) => ({
+          ...prevData,
+          loading: false,
+          error: true,
+        }));
+      }
     };
 
-    fetchDataSimulada();
+    fetchData();
   }, []);
 
   return (

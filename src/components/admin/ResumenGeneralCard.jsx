@@ -1,6 +1,7 @@
-// components/ResumenGeneralCard.jsx
 import { Card } from "antd";
 import { useEffect, useRef, useState } from "react";
+import apiClient from "@/lib/axios";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -25,71 +26,50 @@ ChartJS.register(
 export default function ResumenGeneralCard() {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
-  const [data, setData] = useState({ loading: true, chartData: null });
+  const [data, setData] = useState({
+    loading: true,
+    chartData: null,
+    error: false,
+  });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Reemplaza con tu endpoint
-        const response = await fetch('/api/resumen-general');
-        const result = await response.json();
-        
-        setData({ 
-          loading: false, 
-          chartData: {
-            labels: result.labels || ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio"],
-            datasets: [{
-              label: result.label || "Estadísticas 2024",
-              data: result.data || [12, 19, 3, 5, 2, 3],
-              backgroundColor: [
-                "rgba(54, 162, 235, 0.6)",
-                "rgba(255, 99, 132, 0.6)",
-                "rgba(255, 205, 86, 0.6)",
-                "rgba(75, 192, 192, 0.6)",
-                "rgba(153, 102, 255, 0.6)",
-                "rgba(255, 159, 64, 0.6)",
-              ],
-              borderColor: [
-                "rgba(54, 162, 235, 1)",
-                "rgba(255, 99, 132, 1)",
-                "rgba(255, 205, 86, 1)",
-                "rgba(75, 192, 192, 1)",
-                "rgba(153, 102, 255, 1)",
-                "rgba(255, 159, 64, 1)",
-              ],
-              borderWidth: 1,
-            }]
-          }
+        const response = await apiClient.get("admin/resumen");
+        const rawData = response.data;
+
+        // Crear etiquetas y datasets
+        const labels = rawData.map((item) => item.plantel);
+        const totalAlumnos = rawData.map((item) => item.total_alumnos);
+        const totalRegistros = rawData.map((item) => item.total_registros);
+
+        const chartData = {
+          labels,
+          datasets: [
+            {
+              label: "Total Alumnos",
+              data: totalAlumnos,
+              backgroundColor: "#1890ff9c",
+            },
+            {
+              label: "Total Registros",
+              data: totalRegistros,
+              backgroundColor: "#6be450",
+            },
+          ],
+        };
+
+        setData({
+          chartData,
+          loading: false,
+          error: false,
         });
       } catch (error) {
-        console.error('Error fetching chart data:', error);
-        // Datos por defecto en caso de error
-        setData({ 
-          loading: false, 
-          chartData: {
-            labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio"],
-            datasets: [{
-              label: "Estadísticas 2024",
-              data: [12, 19, 3, 5, 2, 3],
-              backgroundColor: [
-                "rgba(54, 162, 235, 0.6)",
-                "rgba(255, 99, 132, 0.6)",
-                "rgba(255, 205, 86, 0.6)",
-                "rgba(75, 192, 192, 0.6)",
-                "rgba(153, 102, 255, 0.6)",
-                "rgba(255, 159, 64, 0.6)",
-              ],
-              borderColor: [
-                "rgba(54, 162, 235, 1)",
-                "rgba(255, 99, 132, 1)",
-                "rgba(255, 205, 86, 1)",
-                "rgba(75, 192, 192, 1)",
-                "rgba(153, 102, 255, 1)",
-                "rgba(255, 159, 64, 1)",
-              ],
-              borderWidth: 1,
-            }]
-          }
+        console.error("Error fetching objetivo data:", error);
+        setData({
+          chartData: null,
+          loading: false,
+          error: true,
         });
       }
     };
@@ -101,23 +81,13 @@ export default function ResumenGeneralCard() {
     if (!data.chartData || data.loading) return;
 
     const createChart = () => {
-      if (!chartRef.current) return;
-
       const ctx = chartRef.current.getContext("2d");
 
-      // Destruir gráfica anterior si existe
       if (chartInstance.current) {
         chartInstance.current.destroy();
         chartInstance.current = null;
       }
 
-      // Asegurarse de que no hay charts existentes en este canvas
-      const existingChart = ChartJS.getChart(chartRef.current);
-      if (existingChart) {
-        existingChart.destroy();
-      }
-
-      // Crear nueva gráfica
       chartInstance.current = new ChartJS(ctx, {
         type: "bar",
         data: data.chartData,
@@ -127,46 +97,25 @@ export default function ResumenGeneralCard() {
           plugins: {
             title: {
               display: true,
-              text: "Estadísticas Mensuales",
-              font: {
-                size: 14
-              }
+              text: "Resumen por Plantel",
+              font: { size: 16 },
             },
             legend: {
               display: true,
               position: "top",
-              labels: {
-                font: {
-                  size: 12
-                }
-              }
+              labels: { font: { size: 12 } },
             },
           },
           scales: {
             x: {
-              ticks: {
-                font: {
-                  size: 11
-                }
-              }
+              stacked: false,
+              ticks: { font: { size: 11 } },
             },
             y: {
               beginAtZero: true,
-              ticks: {
-                font: {
-                  size: 11
-                }
-              }
+              ticks: { font: { size: 11 } },
             },
           },
-          layout: {
-            padding: {
-              top: 10,
-              right: 10,
-              bottom: 10,
-              left: 10
-            }
-          }
         },
       });
     };
@@ -178,13 +127,6 @@ export default function ResumenGeneralCard() {
         chartInstance.current.destroy();
         chartInstance.current = null;
       }
-      
-      if (chartRef.current) {
-        const existingChart = ChartJS.getChart(chartRef.current);
-        if (existingChart) {
-          existingChart.destroy();
-        }
-      }
     };
   }, [data]);
 
@@ -195,14 +137,13 @@ export default function ResumenGeneralCard() {
         gridColumn: "1 / span 2",
         gridRow: "2 / span 2",
         height: "100%",
-        border: "1px solid red",
       }}
       styles={{
         body: {
           padding: "16px",
-          height: "calc(100% - 60px)", // Resta la altura del header
+          height: "calc(100% - 60px)",
           overflow: "hidden",
-        }
+        },
       }}
       loading={data.loading}
     >

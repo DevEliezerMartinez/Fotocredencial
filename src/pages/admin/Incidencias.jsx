@@ -1,134 +1,54 @@
-import { Card, List, Typography, Breadcrumb } from "antd";
-import { HomeOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { Card, List, Typography, Breadcrumb, Avatar, Tag } from "antd";
+import { HomeOutlined, ExclamationCircleOutlined, UserOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import React from "react";
+import apiClient from "@/lib/axios";
+import React, { useState, useEffect } from "react";
 
 const { Title } = Typography;
 
-const incidenciasData = [
-  {
-    id: 1,
-    nombre: "Juan Pérez",
-    comentarios: "Problema con el acceso al sistema de biblioteca",
-    fechaRegistro: "2024-05-20",
-  },
-  {
-    id: 2,
-    nombre: "María González",
-    comentarios: "Dificultades para conectarse al WiFi del campus",
-    fechaRegistro: "2024-05-21",
-  },
-  {
-    id: 3,
-    nombre: "Carlos López",
-    comentarios: "Solicitud de cambio de horario de clase",
-    fechaRegistro: "2024-05-22",
-  },
-  {
-    id: 4,
-    nombre: "Ana Martínez",
-    comentarios: "Problema con la plataforma virtual de aprendizaje",
-    fechaRegistro: "2024-05-23",
-  },
-  {
-    id: 5,
-    nombre: "Luis Rodriguez",
-    comentarios: "Consulta sobre proceso de inscripción tardía",
-    fechaRegistro: "2024-05-24",
-  },
-  {
-    id: 6,
-    nombre: "Sofía Ramírez",
-    comentarios: "Error al cargar calificaciones en el sistema",
-    fechaRegistro: "2024-05-25",
-  },
-  {
-    id: 7,
-    nombre: "Miguel Torres",
-    comentarios: "Falla en la autenticación de correo institucional",
-    fechaRegistro: "2024-05-26",
-  },
-  {
-    id: 8,
-    nombre: "Laura Gómez",
-    comentarios: "Solicitud de restablecimiento de contraseña",
-    fechaRegistro: "2024-05-27",
-  },
-  {
-    id: 9,
-    nombre: "Jorge Fernández",
-    comentarios: "Problema con la impresora del laboratorio",
-    fechaRegistro: "2024-05-28",
-  },
-  {
-    id: 10,
-    nombre: "Isabel Morales",
-    comentarios: "No aparece horario en sistema académico",
-    fechaRegistro: "2024-05-29",
-  },
-  {
-    id: 11,
-    nombre: "Pedro Sánchez",
-    comentarios: "El aula virtual no muestra contenido actualizado",
-    fechaRegistro: "2024-05-30",
-  },
-  {
-    id: 12,
-    nombre: "Lucía Herrera",
-    comentarios: "Dificultad para subir tareas en la plataforma",
-    fechaRegistro: "2024-05-31",
-  },
-  {
-    id: 13,
-    nombre: "Andrés Castro",
-    comentarios: "No se refleja el pago en el sistema",
-    fechaRegistro: "2024-06-01",
-  },
-  {
-    id: 14,
-    nombre: "Daniela Ruiz",
-    comentarios: "Problemas para registrarse en materias optativas",
-    fechaRegistro: "2024-06-02",
-  },
-  {
-    id: 15,
-    nombre: "Fernando Vargas",
-    comentarios: "El sistema no permite generar constancia de estudios",
-    fechaRegistro: "2024-06-03",
-  },
-  {
-    id: 16,
-    nombre: "Patricia Molina",
-    comentarios: "Solicitud de actualización de datos personales",
-    fechaRegistro: "2024-06-04",
-  },
-  {
-    id: 17,
-    nombre: "Ricardo Aguilar",
-    comentarios: "Fallo en la visualización de notas finales",
-    fechaRegistro: "2024-06-05",
-  },
-  {
-    id: 18,
-    nombre: "Alejandra Ortega",
-    comentarios: "Consulta sobre equivalencia de materias",
-    fechaRegistro: "2024-06-06",
-  },
-  {
-    id: 19,
-    nombre: "Mario Jiménez",
-    comentarios: "Problemas al descargar comprobante de inscripción",
-    fechaRegistro: "2024-06-07",
-  },
-  {
-    id: 20,
-    nombre: "Natalia Rivas",
-    comentarios: "Sistema lento durante la carga de documentos",
-    fechaRegistro: "2024-06-08",
-  },
-];
-
 export default function Incidencias() {
+  const [incidenciasData, setIncidenciasData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [totalIncidencias, setTotalIncidencias] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await apiClient.get("admin/incidencias");
+        setIncidenciasData(response.data);
+        setTotalIncidencias(response.data.length);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching incidencias data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const getStatusTag = (status) => {
+    let color = '';
+    let text = '';
+    
+    switch(status) {
+      case 'SIN REVISAR':
+        color = 'orange';
+        text = 'Pendiente';
+        break;
+      case 'REVISADO':
+        color = 'blue';
+        text = 'Revisado';
+        break;
+      
+      default:
+        color = 'gray';
+        text = 'Desconocido';
+    }
+    
+    return <Tag color={color}>{text}</Tag>;
+  };
+
   return (
     <div style={{ marginBottom: 24 }}>
       {/* Breadcrumb fuera de la Card */}
@@ -157,13 +77,14 @@ export default function Incidencias() {
             Incidencias de estudiantes
           </Title>
           <span style={{ fontSize: "16px", fontWeight: "bold", color: "#666" }}>
-            Total: 1204
+            Total: {totalIncidencias}
           </span>
         </div>
 
         <List
           itemLayout="horizontal"
           dataSource={incidenciasData}
+          loading={loading}
           style={{ 
             maxHeight: '700px', 
             overflowY: 'auto',
@@ -174,11 +95,28 @@ export default function Incidencias() {
           renderItem={(item) => (
             <List.Item>
               <List.Item.Meta
-                title={item.nombre}
-                description={item.comentarios}
+                 avatar={
+                  <Avatar 
+                    size="large" 
+                    icon={<UserOutlined />} 
+                    style={{ 
+                      backgroundColor: '#1890ff',
+                      color: 'white'
+                    }} 
+                  />
+                }
+                title={`${item.alumno_nombre} ${item.alumno_apellido_p} ${item.alumno_apellido_m}`}
+                description={
+                  <div>
+                    <div>{item.comentarios}</div>
+                    <div style={{ marginTop: 4 }}>
+                      {getStatusTag(item.status)}
+                    </div>
+                  </div>
+                }
               />
               <div style={{ minWidth: 100, textAlign: 'right' }}>
-                {item.fechaRegistro}
+                {new Date(item.fecha_registro).toLocaleDateString()}
               </div>
             </List.Item>
           )}

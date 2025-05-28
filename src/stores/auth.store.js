@@ -14,9 +14,10 @@ export const useAuthStore = create((set) => ({
     try {
       set({ isLoading: true });
       const response = await axios.post("auth/login", credentials);
+      console.log(response.data.user.id);
 
       set({
-        user: response.data.user,
+        user: response.data.user.id,
         isAuthenticated: true,
         role: response.data.user.rol_id,
         plantel_id: response.data.user.plantel_id,

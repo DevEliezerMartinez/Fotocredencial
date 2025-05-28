@@ -28,8 +28,8 @@ export default function DetallesPlantel() {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: "1fr 1fr 1fr",
-        gridTemplateRows: "auto auto auto auto",
+        gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr",
+        gridTemplateRows: "auto auto auto auto auto auto  ",
         gap: "16px",
         height: "calc(100vh - 64px - 48px)",
         overflow: "auto",

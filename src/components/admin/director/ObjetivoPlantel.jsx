@@ -1,7 +1,12 @@
 import { Card, Divider, Progress, Typography } from "antd";
 import React, { useEffect, useState } from "react";
+import apiClient from "@/lib/axios";
+import { useParams } from "react-router-dom";
+
 
 function DetallesCarrera() {
+    const { slug } = useParams();
+
   const [data, setData] = useState({
     totalAlumnos: 0,
     registrados: 0,
@@ -11,47 +16,55 @@ function DetallesCarrera() {
     error: false,
   });
 
-  useEffect(() => {
-    // Simular llamada a API con setTimeout
-    const fetchDataSimulada = () => {
-      setTimeout(() => {
-        const result = {
-          totalAlumnos: 45000,
-          registrados: 22500,
-        };
+   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await apiClient.get(`admin/objetivos/${slug}`);
+        const { total_alumnos_visibles, alumnos_con_registro, faltantes } = response.data;
 
-        const porcentaje = Math.round(
-          (result.registrados / result.totalAlumnos) * 100
-        );
+        const totalAlumnos = total_alumnos_visibles || 0;
+        const registrados = alumnos_con_registro || 0;
+        const faltantesCalculados = faltantes || 0;
+
+        const porcentaje = totalAlumnos > 0 ? Math.round((registrados / totalAlumnos) * 100) : 0;
 
         setData({
-          totalAlumnos: result.totalAlumnos,
-          registrados: result.registrados,
-          faltantes: result.totalAlumnos - result.registrados,
-          porcentaje,
+          totalAlumnos: totalAlumnos,
+          registrados: alumnos_con_registro,
+          faltantes: faltantesCalculados,
+          porcentaje: porcentaje,
           loading: false,
           error: false,
         });
-      }, 1500);
+      } catch (error) {
+        console.error("Error fetching objetivo data:", error);
+        setData((prevData) => ({
+          ...prevData,
+          loading: false,
+          error: true,
+        }));
+      }
     };
 
-    fetchDataSimulada();
+    fetchData();
   }, []);
+
 
   return (
     <div
       style={{
-        gridColumn: "3",
-        gridRow: "2 / span 3",
+        gridColumn: "5 / span 2",
+        gridRow: "2 / span 2",
+        border: "1px solid #d9d9d9",
       }}
     >
       <Card
         style={{
-          minHeight: "500px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           textAlign: "center",
+          minHeight: "430px",
         }}
       >
         <Typography.Title

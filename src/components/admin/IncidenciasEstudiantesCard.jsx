@@ -1,25 +1,25 @@
 // components/IncidenciasEstudiantesCard.jsx
 import { Card } from "antd";
 import { useState, useEffect } from "react";
+import apiClient from "@/lib/axios";
+
 
 export default function IncidenciasEstudiantesCard() {
   const [data, setData] = useState({ total: 0, loading: true });
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Reemplaza con tu endpoint
-        const response = await fetch('/api/incidencias-estudiantes');
-        const result = await response.json();
-        setData({ total: result.total, loading: false });
-      } catch (error) {
-        console.error('Error fetching estudiantes data:', error);
-        setData({ total: 0, loading: false, error: true });
-      }
-    };
-
-    fetchData();
-  }, []);
+      const fetchData = async () => {
+        try {
+          const response = await apiClient.get('admin/incidencias_estudiantes/total');
+          setData({ total: response.data.total_incidencias_estudiantes, loading: false });
+        } catch (error) {
+          console.error('Error fetching plantel data:', error);
+          setData({ total: 0, loading: false, error: true });
+        }
+      };
+  
+      fetchData();
+    }, []);
 
   return (
     <Card
