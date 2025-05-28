@@ -24,13 +24,7 @@ const HeaderStudents = () => {
           "http://credenciales.universidad-une.com/#campus";
       },
     },
-    {
-      key: "registro",
-      label: "Registro credencial",
-      onClick: () => {
-        window.open("http://credenciales.universidad-une.com/credenciales/");
-      },
-    },
+    
     {
       key: "beneficios",
       label: "Beneficios Santander",
