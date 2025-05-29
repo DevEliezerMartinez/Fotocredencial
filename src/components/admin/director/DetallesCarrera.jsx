@@ -80,7 +80,7 @@ function DetallesCarrera() {
             renderItem={(carrera) => (
               <List.Item style={{ padding: "8px 0" }}>
                 <Link 
-                  to={`/admin/planteles/${slug}/${carrera.id}`} 
+                  to={`/admin/planteles/${slug}/${carrera.nombre_carrera}`} 
                   style={{ width: '100%', display: 'block' }}
                 >
                   <div style={{ 

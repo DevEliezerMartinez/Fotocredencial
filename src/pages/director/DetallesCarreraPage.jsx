@@ -1,16 +1,34 @@
-import { Card, Breadcrumb, List, Badge, Button, Space, Typography, Spin, Alert, message } from 'antd';
-import { HomeOutlined, RightOutlined, BankOutlined, ReadOutlined, SyncOutlined, FilePdfOutlined } from '@ant-design/icons';
-import { Link, useParams } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
-import { useAuthStore } from '@/stores/auth.store';
-import apiClient from '@/lib/axios';
+import {
+  Card,
+  Breadcrumb,
+  List,
+  Badge,
+  Button,
+  Space,
+  Typography,
+  Spin,
+  Alert,
+  message,
+} from "antd";
+import {
+  HomeOutlined,
+  RightOutlined,
+  BankOutlined,
+  ReadOutlined,
+  SyncOutlined,
+  FilePdfOutlined,
+} from "@ant-design/icons";
+import { Link, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useAuthStore } from "@/stores/auth.store";
+import apiClient from "@/lib/axios";
 
 const { Text } = Typography;
 
 function DetallesCarrera() {
-  const { slug, carrera: carreraId } = useParams(); // slug del plantel y ID de la carrera
-  const { role, plantel_nombre } = useAuthStore();
-  
+  const { slug, carrera: carreraNombre } = useParams(); // slug del plantel y ID de la carrera
+  const { role,plantel_nombre } = useAuthStore();
+
   // Estados para manejar los datos y la carga
   const [estudiantes, setEstudiantes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -22,23 +40,25 @@ function DetallesCarrera() {
     try {
       setLoading(true);
       setError(null);
-      
-      const response = await apiClient.get(`admin/carreras/${slug}/${carreraId}/estudiantes`);
-      
+
+      const response = await apiClient.get(
+        `admin/carreras_detalles/${slug}/${carreraNombre}/estudiantes`
+      );
+
       // Mapear los datos de la API al formato que necesitamos
-      const estudiantesFormateados = response.data.map(estudiante => ({
+      const estudiantesFormateados = response.data.map((estudiante) => ({
         id: estudiante.id,
         nombre: `${estudiante.nombre} ${estudiante.apellido_p} ${estudiante.apellido_m}`,
-        estado: estudiante.estado_envio || 'Sin enviar', // Ajusta según tu API
+        estado: estudiante.estado_envio || "Sin enviar", // Ajusta según tu API
         fecha: estudiante.fecha_envio || null, // Ajusta según tu API
-        data: estudiante // Guardamos todos los datos originales
+        data: estudiante, // Guardamos todos los datos originales
       }));
-      
+
       setEstudiantes(estudiantesFormateados);
     } catch (error) {
-      console.error('Error obteniendo estudiantes:', error);
-      setError(error.response?.data?.message || 'Error al cargar los datos');
-      message.error('Error al cargar los estudiantes');
+      console.error("Error obteniendo estudiantes:", error);
+      setError(error.response?.data?.message || "Error al cargar los datos");
+      message.error("Error al cargar los estudiantes");
     } finally {
       setLoading(false);
     }
@@ -46,10 +66,10 @@ function DetallesCarrera() {
 
   // Cargar datos al montar el componente
   useEffect(() => {
-    if (slug && carreraId) {
+    if (slug && carreraNombre) {
       fetchEstudiantes();
     }
-  }, [slug, carreraId]);
+  }, [slug, carreraNombre]);
 
   // Función para manejar la actualización
   const handleRefresh = () => {
@@ -59,12 +79,12 @@ function DetallesCarrera() {
   // Función para generar y descargar PDF
   const handleDownloadPdf = async () => {
     if (estudiantes.length === 0) {
-      message.warning('No hay estudiantes para generar el reporte');
+      message.warning("No hay estudiantes para generar el reporte");
       return;
     }
 
     setGeneratingPdf(true);
-    
+
     try {
       // Crear contenido HTML para el PDF
       const htmlContent = `
@@ -167,7 +187,7 @@ function DetallesCarrera() {
           <div class="header">
             <h1>Reporte de Estudiantes</h1>
             <p><strong>Plantel:</strong> ${slug}</p>
-            <p><strong>Carrera ID:</strong> ${carreraId}</p>
+            <p><strong>Carrera nombre:</strong> ${carreraNombre}</p>
             <p><strong>Fecha de generación:</strong> ${new Date().toLocaleString()}</p>
           </div>
 
@@ -177,11 +197,15 @@ function DetallesCarrera() {
               <div class="summary-label">Total Estudiantes</div>
             </div>
             <div class="summary-item">
-              <div class="summary-number">${estudiantes.filter(e => e.estado === 'Enviado').length}</div>
+              <div class="summary-number">${
+                estudiantes.filter((e) => e.estado === "Enviado").length
+              }</div>
               <div class="summary-label">Enviados</div>
             </div>
             <div class="summary-item">
-              <div class="summary-number">${estudiantes.filter(e => e.estado === 'Sin enviar').length}</div>
+              <div class="summary-number">${
+                estudiantes.filter((e) => e.estado === "Sin enviar").length
+              }</div>
               <div class="summary-label">Sin Enviar</div>
             </div>
           </div>
@@ -196,18 +220,30 @@ function DetallesCarrera() {
               </tr>
             </thead>
             <tbody>
-              ${estudiantes.map((estudiante, index) => `
+              ${estudiantes
+                .map(
+                  (estudiante, index) => `
                 <tr>
                   <td>${index + 1}</td>
                   <td>${estudiante.nombre}</td>
                   <td>
-                    <span class="${estudiante.estado === 'Enviado' ? 'status-enviado' : 'status-sin-enviar'}">
+                    <span class="${
+                      estudiante.estado === "Enviado"
+                        ? "status-enviado"
+                        : "status-sin-enviar"
+                    }">
                       ${estudiante.estado}
                     </span>
                   </td>
-                  <td>${estudiante.fecha ? new Date(estudiante.fecha).toLocaleString() : '-'}</td>
+                  <td>${
+                    estudiante.fecha
+                      ? new Date(estudiante.fecha).toLocaleString()
+                      : "-"
+                  }</td>
                 </tr>
-              `).join('')}
+              `
+                )
+                .join("")}
             </tbody>
           </table>
 
@@ -220,26 +256,25 @@ function DetallesCarrera() {
       `;
 
       // Usar la API de impresión del navegador para generar PDF
-      const printWindow = window.open('', '_blank');
+      const printWindow = window.open("", "_blank");
       printWindow.document.write(htmlContent);
       printWindow.document.close();
-      
+
       // Esperar a que se cargue el contenido
       printWindow.onload = () => {
         // Configurar para imprimir como PDF
         printWindow.print();
-        
+
         // Cerrar la ventana después de un breve delay
         setTimeout(() => {
           printWindow.close();
         }, 1000);
       };
-      
-      message.success('Generando PDF... Se abrirá el diálogo de impresión');
-      
+
+      message.success("Generando PDF... Se abrirá el diálogo de impresión");
     } catch (error) {
-      console.error('Error generando PDF:', error);
-      message.error('Error al generar el reporte');
+      console.error("Error generando PDF:", error);
+      message.error("Error al generar el reporte");
     } finally {
       setGeneratingPdf(false);
     }
@@ -265,7 +300,7 @@ function DetallesCarrera() {
   const renderCarreraBreadcrumb = () => {
     return (
       <>
-        <ReadOutlined /> Carrera ID: {carreraId}
+        <ReadOutlined /> Carrera ID: {carreraNombre}
       </>
     );
   };
@@ -278,37 +313,33 @@ function DetallesCarrera() {
             <HomeOutlined /> Dashboard
           </Link>
         </Breadcrumb.Item>
-        
-        <Breadcrumb.Item>
-          {renderPlantelesBreadcrumb()}
-        </Breadcrumb.Item>
-        
+
+        <Breadcrumb.Item>{renderPlantelesBreadcrumb()}</Breadcrumb.Item>
+
         <Breadcrumb.Item>
           <Link to={`/admin/planteles/${slug}`}>
             <BankOutlined /> {slug}
           </Link>
         </Breadcrumb.Item>
-        
-        <Breadcrumb.Item>
-          {renderCarreraBreadcrumb()}
-        </Breadcrumb.Item>
+
+        <Breadcrumb.Item>{renderCarreraBreadcrumb()}</Breadcrumb.Item>
       </Breadcrumb>
 
-      <Card 
+      <Card
         title={
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
-              Detalles de carrera ID: {carreraId}
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <span style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+              Detalles de carrera ID: {carreraNombre}
             </span>
-            <span style={{ fontWeight: 'bold' }}>
-              Total estudiantes: {loading ? '...' : estudiantes.length}
+            <span style={{ fontWeight: "bold" }}>
+              Total estudiantes: {loading ? "..." : estudiantes.length}
             </span>
           </div>
         }
         extra={
-          <Button 
-            type="text" 
-            icon={<SyncOutlined />} 
+          <Button
+            type="text"
+            icon={<SyncOutlined />}
             onClick={handleRefresh}
             loading={loading}
           >
@@ -317,18 +348,18 @@ function DetallesCarrera() {
         }
       >
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '50px 0' }}>
+          <div style={{ textAlign: "center", padding: "50px 0" }}>
             <Spin size="large" />
             <div style={{ marginTop: 16 }}>
               <Text>Cargando estudiantes...</Text>
             </div>
           </div>
         ) : error ? (
-          <Alert 
-            message="Error al cargar los datos" 
+          <Alert
+            message="Error al cargar los datos"
             description={error}
-            type="error" 
-            showIcon 
+            type="error"
+            showIcon
             action={
               <Button size="small" onClick={handleRefresh}>
                 Reintentar
@@ -336,35 +367,38 @@ function DetallesCarrera() {
             }
           />
         ) : estudiantes.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '50px 0' }}>
-            <Text type="secondary">No hay estudiantes registrados en esta carrera</Text>
+          <div style={{ textAlign: "center", padding: "50px 0" }}>
+            <Text type="secondary">
+              No hay estudiantes registrados en esta carrera
+            </Text>
           </div>
         ) : (
           <List
             dataSource={estudiantes}
             renderItem={(item) => (
-              <List.Item 
-                style={{ 
-                  display: 'flex', 
-                  justifyContent: 'space-between',
-                  padding: '12px 0',
-                  borderBottom: '1px solid #f0f0f0'
+              <List.Item
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  padding: "12px 0",
+                  borderBottom: "1px solid #f0f0f0",
                 }}
               >
                 <Space>
                   <Text strong>{item.nombre}</Text>
-                  <Badge 
-                    count={item.estado} 
-                    style={{ 
-                      backgroundColor: item.estado === 'Enviado' ? '#52c41a' : '#faad14',
-                      color: '#fff',
-                      fontWeight: 'normal',
-                      marginLeft: 8
-                    }} 
+                  <Badge
+                    count={item.estado}
+                    style={{
+                      backgroundColor:
+                        item.estado === "Enviado" ? "#52c41a" : "#faad14",
+                      color: "#fff",
+                      fontWeight: "normal",
+                      marginLeft: 8,
+                    }}
                   />
                 </Space>
                 {item.fecha && (
-                  <Text type="secondary" style={{ fontStyle: 'italic' }}>
+                  <Text type="secondary" style={{ fontStyle: "italic" }}>
                     Último envío: {new Date(item.fecha).toLocaleString()}
                   </Text>
                 )}
@@ -372,25 +406,27 @@ function DetallesCarrera() {
             )}
           />
         )}
-        
-        <div style={{ 
-          marginTop: 24, 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          paddingTop: 16,
-          borderTop: '1px solid #f0f0f0'
-        }}>
-          <Button 
-            type="primary" 
-            icon={<FilePdfOutlined />} 
+
+        <div
+          style={{
+            marginTop: 24,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingTop: 16,
+            borderTop: "1px solid #f0f0f0",
+          }}
+        >
+          <Button
+            type="primary"
+            icon={<FilePdfOutlined />}
             onClick={handleDownloadPdf}
             loading={generatingPdf}
             style={{ marginRight: 8 }}
           >
             Descargar Reporte
           </Button>
-          
+
           <Text type="secondary">
             Última actualización: {new Date().toLocaleString()}
           </Text>

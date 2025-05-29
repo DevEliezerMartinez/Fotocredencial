@@ -38,7 +38,7 @@ console.log("Environment variables:", {
 });
 
 // Obtener configuración desde .env
-const basename = import.meta.env.VITE_BASE_PATH || "/credenciales";
+const basename = import.meta.env.VITE_BASE_PATH || "/credenciales-notfound";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
