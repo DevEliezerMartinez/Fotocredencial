@@ -50,9 +50,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           </App>
         </BrowserRouter>
       </ConfigProvider>
-      {import.meta.env.DEV && ( // Devtools solo en desarrollo
-        <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
-      )}
+      
     </QueryClientProvider>
   </React.StrictMode>
 );
