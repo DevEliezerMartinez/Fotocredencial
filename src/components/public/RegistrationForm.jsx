@@ -213,7 +213,7 @@ const RegistrationForm = ({
                 type="primary"
                 size="large"
                 onClick={handleCorrectInfo}
-                style={{ marginRight: "12px" }}
+                style={{ marginBottom: "1rem" }}
                 disabled={buttonsDisabled}
               >
                 Mi información es correcta
@@ -245,7 +245,7 @@ const RegistrationForm = ({
                   type="primary"
                   size="large"
                   onClick={handleSubmitIncident}
-                  style={{ marginRight: "12px" }}
+                  style={{margin:"1rem"}}
                 >
                   Enviar incidencia
                 </Button>
@@ -253,6 +253,7 @@ const RegistrationForm = ({
                 <Button
                   type="default"
                   size="large"
+                  style={{margin:"1rem"}}
                   onClick={handleCancelIncident}
                 >
                   Cancelar
